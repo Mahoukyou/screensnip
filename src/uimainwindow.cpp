@@ -16,4 +16,7 @@ void UIMainWindow::setupUI(QMainWindow* main_window)
 
 	central_widget_ = new QWidget{ main_window };
 	main_window->setCentralWidget(central_widget_);
+
+	snip_button_ = new QPushButton{ centralWidget() };
+	snip_button_->setText("Snip");
 }

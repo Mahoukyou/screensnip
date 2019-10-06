@@ -22,6 +22,8 @@ add_executable(notifier # WIN32 # todo
     uimainwindow.h
     uimainwindow.cpp
     main.cpp
+	snipwidget.h
+    snipwidget.cpp
 )
 
 target_link_libraries(notifier Qt5::Widgets)

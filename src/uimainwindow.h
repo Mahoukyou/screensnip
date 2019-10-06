@@ -14,11 +14,18 @@ class UIMainWindow
 public:
 	void setupUI(QMainWindow* main_window);
 
-	QWidget* centralWidget() const
+	QWidget* centralWidget() const noexcept
 	{
 		return central_widget_;
 	}
 
+	QPushButton* snipButton() const noexcept
+	{
+		return snip_button_;
+	}
+	
+
 private:
 	QWidget* central_widget_{ nullptr };
+	QPushButton* snip_button_{ nullptr };
 };

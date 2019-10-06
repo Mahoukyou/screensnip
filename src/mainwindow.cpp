@@ -7,6 +7,10 @@
 #include <QMenu>
 #include <QCoreApplication>
 
+#include <QPushButton>
+#include <QDebug>
+
+#include "snipwidget.h"
 
 MainWindow::MainWindow(QWidget* const parent) :
 	QMainWindow{ parent },
@@ -16,6 +20,8 @@ MainWindow::MainWindow(QWidget* const parent) :
 
 	createTrayIcon();
 	createTrayIconActions();
+
+	connect(ui_->snipButton(), &QPushButton::clicked, this, &MainWindow::onSnipButtonClicked);
 }
 
 MainWindow::~MainWindow()
@@ -73,4 +79,10 @@ void MainWindow::onTrayIconActivated(const QSystemTrayIcon::ActivationReason rea
 
 	default:;
 	}
+}
+
+void MainWindow::onSnipButtonClicked()
+{
+	auto snipWindow = new SnipWidget();
+	snipWindow->show();
 }
