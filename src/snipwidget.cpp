@@ -7,18 +7,31 @@
 #include <QClipboard>
 #include <QDebug>
 #include <QKeyEvent>
+#include <QPainter>
+
+void SelectionDrawer::paintEvent(QPaintEvent* event)
+{
+	QPainter painter{ this };
+	painter.setPen(Qt::NoPen);
+	painter.setBrush(QBrush(QColor(124, 124, 124, 124)));
+	painter.drawRect(0, 0, 1920, 1080);
+}
 
 SnipWidget::SnipWidget() :
-	background_{ new QLabel{this} }
+	background_{ new QLabel{this} },
+	selectionWidget_{ new SelectionDrawer{this} }
 {
-	setCentralWidget(background_);
+	setCentralWidget(new QWidget{this});
+	background_->setParent(centralWidget());
+	selectionWidget_->setParent(centralWidget());
 		
 	grabCurrentScreen();
-//	copyPixmapToClipboard();
 	
 	setWindowFlags(Qt::FramelessWindowHint);
 	setFixedSize(QGuiApplication::primaryScreen()->size());
 	move(0, 0);
+
+	selectionWidget_->setFixedSize(size());
 }
 
 bool SnipWidget::event(QEvent* event)
@@ -46,7 +59,6 @@ void SnipWidget::keyPressEvent(QKeyEvent* event)
 
 	event->ignore();
 }
-
 
 void SnipWidget::cancelSnip()
 {
