@@ -84,5 +84,6 @@ void MainWindow::onTrayIconActivated(const QSystemTrayIcon::ActivationReason rea
 void MainWindow::onSnipButtonClicked()
 {
 	auto snipWindow = new SnipWidget();
+//	snipWindow->setParent(this);
 	snipWindow->show();
 }

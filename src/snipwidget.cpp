@@ -5,20 +5,53 @@
 #include <QScreen>
 #include <QLabel>
 #include <QClipboard>
+#include <QDebug>
+#include <QKeyEvent>
 
 SnipWidget::SnipWidget() :
 	background_{ new QLabel{this} }
 {
-	setVisible(false);
+	setCentralWidget(background_);
+		
+	grabCurrentScreen();
+//	copyPixmapToClipboard();
 	
 	setWindowFlags(Qt::FramelessWindowHint);
 	setFixedSize(QGuiApplication::primaryScreen()->size());
 	move(0, 0);
-	
-	grabCurrentScreen();
-	copyPixmapToClipboard();
+}
 
-	setVisible(true);
+bool SnipWidget::event(QEvent* event)
+{
+	if (event->type() == QEvent::ActivationChange)
+	{
+		// Focus lost
+		if (!this->isActiveWindow())
+		{
+			cancelSnip();
+			return true;
+		}
+	}
+
+	return QMainWindow::event(event);
+}
+
+void SnipWidget::keyPressEvent(QKeyEvent* event)
+{
+	if(event->key() == Qt::Key_Escape)
+	{
+		cancelSnip();
+		event->accept();
+	}
+
+	event->ignore();
+}
+
+
+void SnipWidget::cancelSnip()
+{
+	setVisible(false);
+	deleteLater();
 }
 
 void SnipWidget::grabCurrentScreen()
