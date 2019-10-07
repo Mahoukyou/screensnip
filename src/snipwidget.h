@@ -36,6 +36,8 @@ private:
 	void grabCurrentScreen();
 	void copyPixmapToClipboard();
 
+	void updateSelectionWidget();
+
 private:
 	QPixmap original_pixmap_;
 	QLabel* background_{ nullptr };

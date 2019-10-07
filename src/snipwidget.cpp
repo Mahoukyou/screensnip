@@ -69,22 +69,36 @@ void SnipWidget::keyPressEvent(QKeyEvent* const event)
 
 void SnipWidget::mousePressEvent(QMouseEvent* event)
 {
+	// todo. ,s witch
 	if (event->button() == Qt::MouseButton::LeftButton)
 	{
 		selection_begin_ = event->screenPos().toPoint();
 
 		is_selecting_ = true;
 	}
+
+	if (event->button() == Qt::MouseButton::RightButton && is_selecting_)
+	{
+		is_selecting_ = false;
+		selection_begin_ = {};
+		selection_rect_ = {};
+
+		updateSelectionWidget();
+	}
 }
 
 void SnipWidget::mouseReleaseEvent(QMouseEvent* event)
 {
-	// todo, snip pixmap to the rect
+	if (event->button() == Qt::MouseButton::LeftButton && is_selecting_)
+	{
+		is_selecting_ = false;
+		// todo
+	}
 }
 
 void SnipWidget::mouseMoveEvent(QMouseEvent* event)
 {
-	if(is_selecting_)
+	if (is_selecting_)
 	{
 		const QPoint current_pos = event->screenPos().toPoint();
 		const int width = current_pos.x() - selection_begin_.x();
@@ -95,9 +109,8 @@ void SnipWidget::mouseMoveEvent(QMouseEvent* event)
 			height < 0 ? current_pos.y() : selection_begin_.y(),
 			std::abs(width),
 			std::abs(height) };
-		
-		selection_widget_->setSelectionRect(selection_rect_);
-		selection_widget_->update();
+
+		updateSelectionWidget();
 	}
 }
 
@@ -122,4 +135,10 @@ void SnipWidget::grabCurrentScreen()
 void SnipWidget::copyPixmapToClipboard()
 {
 	QApplication::clipboard()->setPixmap(original_pixmap_);
+}
+
+void SnipWidget::updateSelectionWidget()
+{
+	selection_widget_->setSelectionRect(selection_rect_);
+	selection_widget_->update();
 }
