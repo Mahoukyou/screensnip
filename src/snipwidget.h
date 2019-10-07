@@ -41,6 +41,7 @@ private:
 	QLabel* background_{ nullptr };
 	SelectionDrawer* selection_widget_{ nullptr };
 
+	QPoint selection_begin_;
 	QRect selection_rect_;
 	bool is_selecting_{ false };
 };

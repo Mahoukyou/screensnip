@@ -71,9 +71,7 @@ void SnipWidget::mousePressEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::MouseButton::LeftButton)
 	{
-		selection_rect_ = QRect{
-			static_cast<int>(event->screenPos().x()),
-			static_cast<int>(event->screenPos().y()), 0, 0 };
+		selection_begin_ = event->screenPos().toPoint();
 
 		is_selecting_ = true;
 	}
@@ -88,10 +86,16 @@ void SnipWidget::mouseMoveEvent(QMouseEvent* event)
 {
 	if(is_selecting_)
 	{
-		// todo, reverse pos with size if result of subtraction is negative
-		selection_rect_.setWidth(std::abs(selection_rect_.x() - event->screenPos().x()));
-		selection_rect_.setHeight(std::abs(selection_rect_.y() - event->screenPos().y()));
+		const QPoint current_pos = event->screenPos().toPoint();
+		const int width = current_pos.x() - selection_begin_.x();
+		const int height = current_pos.y() - selection_begin_.y();
 
+		selection_rect_ = QRect{
+			width < 0 ? current_pos.x() : selection_begin_.x(),
+			height < 0 ? current_pos.y() : selection_begin_.y(),
+			std::abs(width),
+			std::abs(height) };
+		
 		selection_widget_->setSelectionRect(selection_rect_);
 		selection_widget_->update();
 	}
