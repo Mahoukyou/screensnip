@@ -4,7 +4,7 @@
 #include <QWindow>
 class QLabel;
 
-class SelectionDrawer : public QWidget
+class SelectionWidget : public QWidget
 {
 public:
 	using QWidget::QWidget;
@@ -36,12 +36,15 @@ private:
 	void grabCurrentScreen();
 	void copyPixmapToClipboard();
 
+	void createPixmapFromSelection();
+
 	void updateSelectionWidget();
 
 private:
 	QPixmap original_pixmap_;
+	QPixmap selected_pixmap_;
 	QLabel* background_{ nullptr };
-	SelectionDrawer* selection_widget_{ nullptr };
+	SelectionWidget* selection_widget_{ nullptr };
 
 	QPoint selection_begin_;
 	QRect selection_rect_;

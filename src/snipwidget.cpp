@@ -9,12 +9,12 @@
 #include <QKeyEvent>
 #include <QPainter>
 
-void SelectionDrawer::setSelectionRect(const QRect selection_rect)
+void SelectionWidget::setSelectionRect(const QRect selection_rect)
 {
 	selection_rect_ = selection_rect;
 }
 
-void SelectionDrawer::paintEvent(QPaintEvent* event)
+void SelectionWidget::paintEvent(QPaintEvent* event)
 {
 	QPainter painter{ this };
 	painter.setPen(Qt::NoPen);
@@ -26,7 +26,7 @@ void SelectionDrawer::paintEvent(QPaintEvent* event)
 
 SnipWidget::SnipWidget() :
 	background_{ new QLabel{this} },
-	selection_widget_{ new SelectionDrawer{this} }
+	selection_widget_{ new SelectionWidget{this} }
 {
 	setCentralWidget(new QWidget{this});
 	background_->setParent(centralWidget());
@@ -92,7 +92,12 @@ void SnipWidget::mouseReleaseEvent(QMouseEvent* event)
 	if (event->button() == Qt::MouseButton::LeftButton && is_selecting_)
 	{
 		is_selecting_ = false;
-		// todo
+		createPixmapFromSelection();
+		copyPixmapToClipboard();
+
+		cancelSnip();
+		
+		// todo, save to disk
 	}
 }
 
@@ -134,7 +139,12 @@ void SnipWidget::grabCurrentScreen()
 
 void SnipWidget::copyPixmapToClipboard()
 {
-	QApplication::clipboard()->setPixmap(original_pixmap_);
+	QApplication::clipboard()->setPixmap(selected_pixmap_);
+}
+
+void SnipWidget::createPixmapFromSelection()
+{
+	selected_pixmap_ = original_pixmap_.copy(selection_rect_);
 }
 
 void SnipWidget::updateSelectionWidget()
