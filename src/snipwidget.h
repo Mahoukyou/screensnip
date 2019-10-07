@@ -9,10 +9,13 @@ class SelectionDrawer : public QWidget
 public:
 	using QWidget::QWidget;
 
-	void setSelectionRect(QRect selectionRect);
+	void setSelectionRect(QRect selection_rect);
 
 protected:
 	void paintEvent(QPaintEvent* event) override;
+
+private:
+	QRect selection_rect_;
 
 };
 
@@ -24,7 +27,10 @@ public:
 	
 protected:
 	void keyPressEvent(QKeyEvent* event) override;
-
+	void mousePressEvent(QMouseEvent* event) override;
+	void mouseReleaseEvent(QMouseEvent* event) override;
+	void mouseMoveEvent(QMouseEvent* event) override;
+	
 private:
 	void cancelSnip();
 	void grabCurrentScreen();
@@ -33,5 +39,8 @@ private:
 private:
 	QPixmap original_pixmap_;
 	QLabel* background_{ nullptr };
-	SelectionDrawer* selectionWidget_{ nullptr };
+	SelectionDrawer* selection_widget_{ nullptr };
+
+	QRect selection_rect_;
+	bool is_selecting_{ false };
 };

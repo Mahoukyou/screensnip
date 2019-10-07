@@ -9,21 +9,28 @@
 #include <QKeyEvent>
 #include <QPainter>
 
+void SelectionDrawer::setSelectionRect(const QRect selection_rect)
+{
+	selection_rect_ = selection_rect;
+}
+
 void SelectionDrawer::paintEvent(QPaintEvent* event)
 {
 	QPainter painter{ this };
 	painter.setPen(Qt::NoPen);
 	painter.setBrush(QBrush(QColor(124, 124, 124, 124)));
-	painter.drawRect(0, 0, 1920, 1080);
+	painter.drawRect(0, 0, size().width(), size().height());
+	painter.eraseRect(selection_rect_); // todo doesn't work -- erases everything
+	// either reverse the mask or draw 4 rects
 }
 
 SnipWidget::SnipWidget() :
 	background_{ new QLabel{this} },
-	selectionWidget_{ new SelectionDrawer{this} }
+	selection_widget_{ new SelectionDrawer{this} }
 {
 	setCentralWidget(new QWidget{this});
 	background_->setParent(centralWidget());
-	selectionWidget_->setParent(centralWidget());
+	selection_widget_->setParent(centralWidget());
 		
 	grabCurrentScreen();
 	
@@ -31,15 +38,15 @@ SnipWidget::SnipWidget() :
 	setFixedSize(QGuiApplication::primaryScreen()->size());
 	move(0, 0);
 
-	selectionWidget_->setFixedSize(size());
+	selection_widget_->setFixedSize(size());
 }
 
-bool SnipWidget::event(QEvent* event)
+bool SnipWidget::event(QEvent* const event)
 {
 	if (event->type() == QEvent::ActivationChange)
 	{
 		// Focus lost
-		if (!this->isActiveWindow())
+		if (!isActiveWindow())
 		{
 			cancelSnip();
 			return true;
@@ -49,7 +56,7 @@ bool SnipWidget::event(QEvent* event)
 	return QMainWindow::event(event);
 }
 
-void SnipWidget::keyPressEvent(QKeyEvent* event)
+void SnipWidget::keyPressEvent(QKeyEvent* const event)
 {
 	if(event->key() == Qt::Key_Escape)
 	{
@@ -60,6 +67,36 @@ void SnipWidget::keyPressEvent(QKeyEvent* event)
 	event->ignore();
 }
 
+void SnipWidget::mousePressEvent(QMouseEvent* event)
+{
+	if (event->button() == Qt::MouseButton::LeftButton)
+	{
+		selection_rect_ = QRect{
+			static_cast<int>(event->screenPos().x()),
+			static_cast<int>(event->screenPos().y()), 0, 0 };
+
+		is_selecting_ = true;
+	}
+}
+
+void SnipWidget::mouseReleaseEvent(QMouseEvent* event)
+{
+	// todo, snip pixmap to the rect
+}
+
+void SnipWidget::mouseMoveEvent(QMouseEvent* event)
+{
+	if(is_selecting_)
+	{
+		// todo, reverse pos with size if result of subtraction is negative
+		selection_rect_.setWidth(std::abs(selection_rect_.x() - event->screenPos().x()));
+		selection_rect_.setHeight(std::abs(selection_rect_.y() - event->screenPos().y()));
+
+		selection_widget_->setSelectionRect(selection_rect_);
+		selection_widget_->update();
+	}
+}
+
 void SnipWidget::cancelSnip()
 {
 	setVisible(false);
@@ -68,7 +105,7 @@ void SnipWidget::cancelSnip()
 
 void SnipWidget::grabCurrentScreen()
 {
-	QScreen* screen = QGuiApplication::primaryScreen();
+	QScreen* const screen = QGuiApplication::primaryScreen();
 	if (!screen)
 	{
 		return;
