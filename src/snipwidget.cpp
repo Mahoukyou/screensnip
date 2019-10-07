@@ -9,9 +9,12 @@
 #include <QKeyEvent>
 #include <QPainter>
 
+#include "utility.h"
+
 void SelectionWidget::setSelectionRect(const QRect selection_rect)
 {
-	selection_rect_ = selection_rect;
+	clip_region_ += QRect{0, 0, size().width(), size().height()};
+	clip_region_ -= selection_rect;
 }
 
 void SelectionWidget::paintEvent(QPaintEvent* event)
@@ -19,9 +22,8 @@ void SelectionWidget::paintEvent(QPaintEvent* event)
 	QPainter painter{ this };
 	painter.setPen(Qt::NoPen);
 	painter.setBrush(QBrush(QColor(124, 124, 124, 124)));
+	painter.setClipRegion(clip_region_);
 	painter.drawRect(0, 0, size().width(), size().height());
-	painter.eraseRect(selection_rect_); // todo doesn't work -- erases everything
-	// either reverse the mask or draw 4 rects
 }
 
 SnipWidget::SnipWidget() :
@@ -39,6 +41,7 @@ SnipWidget::SnipWidget() :
 	move(0, 0);
 
 	selection_widget_->setFixedSize(size());
+	selection_widget_->setSelectionRect({});
 }
 
 bool SnipWidget::event(QEvent* const event)
@@ -69,21 +72,25 @@ void SnipWidget::keyPressEvent(QKeyEvent* const event)
 
 void SnipWidget::mousePressEvent(QMouseEvent* event)
 {
-	// todo. ,s witch
-	if (event->button() == Qt::MouseButton::LeftButton)
+	switch(event->button())
 	{
+	case Qt::MouseButton::LeftButton:
 		selection_begin_ = event->screenPos().toPoint();
-
 		is_selecting_ = true;
-	}
+		break;
 
-	if (event->button() == Qt::MouseButton::RightButton && is_selecting_)
-	{
-		is_selecting_ = false;
-		selection_begin_ = {};
-		selection_rect_ = {};
+	case Qt::MouseButton::RightButton:
+		if (is_selecting_)
+		{
+			is_selecting_ = false;
+			selection_begin_ = {};
+			selection_rect_ = {};
 
-		updateSelectionWidget();
+			updateSelectionWidget();
+		}
+		break;
+
+	default:;
 	}
 }
 
@@ -95,9 +102,9 @@ void SnipWidget::mouseReleaseEvent(QMouseEvent* event)
 		createPixmapFromSelection();
 		copyPixmapToClipboard();
 
-		cancelSnip();
+		utility::savePixmapToDisk(selected_pixmap_);
 		
-		// todo, save to disk
+		cancelSnip();
 	}
 }
 

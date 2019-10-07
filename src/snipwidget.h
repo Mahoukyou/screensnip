@@ -2,21 +2,21 @@
 
 #include <QMainWindow>
 #include <QWindow>
+
 class QLabel;
 
 class SelectionWidget : public QWidget
 {
 public:
 	using QWidget::QWidget;
-
+	
 	void setSelectionRect(QRect selection_rect);
 
 protected:
 	void paintEvent(QPaintEvent* event) override;
 
 private:
-	QRect selection_rect_;
-
+	QRegion clip_region_;
 };
 
 class SnipWidget : public QMainWindow
