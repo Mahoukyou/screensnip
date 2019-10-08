@@ -16,7 +16,7 @@ endif()
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
-add_executable(notifier # WIN32 # todo
+add_executable(ScreenSnip # WIN32 # todo
     mainwindow.h
     mainwindow.cpp
     uimainwindow.h
@@ -28,4 +28,5 @@ add_executable(notifier # WIN32 # todo
     utility.cpp
 )
 
-target_link_libraries(notifier Qt5::Widgets)
+target_link_libraries(ScreenSnip Qt5::Widgets)
+target_link_libraries(ScreenSnip gh)
