@@ -6,6 +6,8 @@
 #include "uglobalhotkeys.h"
 #include <QDebug>
 
+#include "snipwidget.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -15,10 +17,11 @@ int main(int argc, char *argv[])
 
 		// teest
 		UGlobalHotkeys* hotkeyManager = new UGlobalHotkeys();
-		hotkeyManager->registerHotkey("Ctrl+Shift+F11 ");
-		QObject::connect(hotkeyManager, &UGlobalHotkeys::activated, [=](size_t id)
+		hotkeyManager->registerHotkey("Alt+Shift+S");
+		QObject::connect(hotkeyManager, &UGlobalHotkeys::activated, [](size_t id)
 		{
-			qDebug() << "Activated: " << QString::number(id);
+			auto snip_widget = SnipWidget::create_snip_widget();
+			snip_widget->show();
 		});
 
 		

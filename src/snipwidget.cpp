@@ -26,6 +26,8 @@ void SelectionWidget::paintEvent(QPaintEvent* event)
 	painter.drawRect(0, 0, size().width(), size().height());
 }
 
+SnipWidget* SnipWidget::instance_ = nullptr;
+
 SnipWidget::SnipWidget() :
 	background_{ new QLabel{this} },
 	selection_widget_{ new SelectionWidget{this} }
@@ -57,6 +59,26 @@ bool SnipWidget::event(QEvent* const event)
 	}
 
 	return QMainWindow::event(event);
+}
+
+void SnipWidget::cancelSnip()
+{
+	instance_ = nullptr;
+
+	setVisible(false);
+	deleteLater();
+}
+
+SnipWidget* SnipWidget::create_snip_widget()
+{
+	if (instance_)
+	{
+		// todo, reset instead of instnacing again
+		instance_->cancelSnip();
+	}
+
+	instance_ = new SnipWidget{};
+	return instance_;
 }
 
 void SnipWidget::keyPressEvent(QKeyEvent* const event)
@@ -124,12 +146,6 @@ void SnipWidget::mouseMoveEvent(QMouseEvent* event)
 
 		updateSelectionWidget();
 	}
-}
-
-void SnipWidget::cancelSnip()
-{
-	setVisible(false);
-	deleteLater();
 }
 
 void SnipWidget::grabCurrentScreen()

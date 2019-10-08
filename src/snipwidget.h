@@ -21,9 +21,14 @@ private:
 
 class SnipWidget : public QMainWindow
 {
-public:
+private:
 	SnipWidget();
+	
+public:
 	bool event(QEvent* event) override;
+	void cancelSnip();
+	
+	static SnipWidget* create_snip_widget(); 
 	
 protected:
 	void keyPressEvent(QKeyEvent* event) override;
@@ -32,7 +37,6 @@ protected:
 	void mouseMoveEvent(QMouseEvent* event) override;
 	
 private:
-	void cancelSnip();
 	void grabCurrentScreen();
 	void copyPixmapToClipboard();
 
@@ -41,6 +45,8 @@ private:
 	void updateSelectionWidget();
 
 private:
+	static SnipWidget* instance_;
+	
 	QPixmap original_pixmap_;
 	QPixmap selected_pixmap_;
 	QLabel* background_{ nullptr };
