@@ -38,11 +38,11 @@ protected:
 	
 private:
 	void grabCurrentScreen();
-	void copyPixmapToClipboard();
+	void copyPixmapToClipboard() const;
 
 	void createPixmapFromSelection();
 
-	void updateSelectionWidget();
+	void updateSelectionWidget() const;
 
 private:
 	static SnipWidget* instance_;

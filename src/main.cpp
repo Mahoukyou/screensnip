@@ -22,6 +22,8 @@ int main(int argc, char *argv[])
 		{
 			auto snip_widget = SnipWidget::create_snip_widget();
 			snip_widget->show();
+			snip_widget->raise();
+			snip_widget->activateWindow();
 		});
 
 		

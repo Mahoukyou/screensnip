@@ -160,7 +160,7 @@ void SnipWidget::grabCurrentScreen()
 	background_->setPixmap(original_pixmap_);
 }
 
-void SnipWidget::copyPixmapToClipboard()
+void SnipWidget::copyPixmapToClipboard() const
 {
 	QApplication::clipboard()->setPixmap(selected_pixmap_);
 }
@@ -170,7 +170,7 @@ void SnipWidget::createPixmapFromSelection()
 	selected_pixmap_ = original_pixmap_.copy(selection_rect_);
 }
 
-void SnipWidget::updateSelectionWidget()
+void SnipWidget::updateSelectionWidget() const
 {
 	selection_widget_->setSelectionRect(selection_rect_);
 	selection_widget_->update();
