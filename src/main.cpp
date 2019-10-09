@@ -7,6 +7,7 @@
 #include <QDebug>
 
 #include "snipwidget.h"
+#include "utility.h"
 
 
 int main(int argc, char *argv[])
@@ -17,15 +18,31 @@ int main(int argc, char *argv[])
 
 		// teest
 		UGlobalHotkeys* hotkeyManager = new UGlobalHotkeys();
-		hotkeyManager->registerHotkey("Alt+Shift+S");
-		QObject::connect(hotkeyManager, &UGlobalHotkeys::activated, [](size_t id)
+		hotkeyManager->registerHotkey("Alt+Shift+S", 1);
+		hotkeyManager->registerHotkey("Alt+Shift+D", 2);
+		QObject::connect(hotkeyManager, &UGlobalHotkeys::activated, [](const size_t id)
 		{
-			auto snip_widget = SnipWidget::create_snip_widget();
-			snip_widget->show();
-			snip_widget->raise();
-			snip_widget->activateWindow();
-		});
+			// todo, enumerator, hotkey manager
+			switch(id)
+			{
+			case 1:
+			{
+				auto snip_widget = SnipWidget::create_snip_widget();
+				snip_widget->show();
+				snip_widget->raise();
+				snip_widget->activateWindow();
 
+				break;
+			}
+			case 2:
+				utility::takeEntireScreenScreenshot();
+				break;
+
+			default:;
+			}
+			
+			
+		});
 		
 		MainWindow window;
 		window.show();

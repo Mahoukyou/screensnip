@@ -10,7 +10,7 @@ class SelectionWidget : public QWidget
 public:
 	using QWidget::QWidget;
 	
-	void setSelectionRect(QRect selection_rect);
+	void setSelectionRect(const QRect& selection_rect);
 
 protected:
 	void paintEvent(QPaintEvent* event) override;

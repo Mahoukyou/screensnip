@@ -11,13 +11,13 @@
 
 #include "utility.h"
 
-void SelectionWidget::setSelectionRect(const QRect selection_rect)
+void SelectionWidget::setSelectionRect(const QRect& selection_rect)
 {
 	clip_region_ += QRect{0, 0, size().width(), size().height()};
 	clip_region_ -= selection_rect;
 }
 
-void SelectionWidget::paintEvent(QPaintEvent* event)
+void SelectionWidget::paintEvent(QPaintEvent* const event)
 {
 	QPainter painter{ this };
 	painter.setPen(Qt::NoPen);
@@ -38,7 +38,7 @@ SnipWidget::SnipWidget() :
 		
 	grabCurrentScreen();
 	
-	setWindowFlags(Qt::FramelessWindowHint);
+	setWindowFlags(Qt::FramelessWindowHint | Qt::ToolTip);
 	setFixedSize(QGuiApplication::primaryScreen()->size());
 	move(0, 0);
 
@@ -73,7 +73,7 @@ SnipWidget* SnipWidget::create_snip_widget()
 {
 	if (instance_)
 	{
-		// todo, reset instead of instnacing again
+		// TODO[3], reset the current snipwidget instead of re-instancing<?>
 		instance_->cancelSnip();
 	}
 

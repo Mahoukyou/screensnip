@@ -5,6 +5,11 @@
 #include <QFileInfo>
 #include <QDir>
 
+#include <QScreen>
+#include <QGuiApplication>
+#include <QClipboard>
+#include <QApplication>
+
 bool utility::savePixmapToDisk(const QPixmap& pixmap)
 {
 	// todo cleanup  a litile
@@ -65,4 +70,18 @@ bool utility::makeDirectoryPathIfNotExists(const QString& path)
 	}
 
 	return true;
+}
+
+void utility::takeEntireScreenScreenshot()
+{
+	QScreen* const screen = QGuiApplication::primaryScreen();
+	if (!screen)
+	{
+		return;
+	}
+
+	auto pixmap = screen->grabWindow(0);
+	QApplication::clipboard()->setPixmap(pixmap);
+
+	savePixmapToDisk(pixmap);
 }
