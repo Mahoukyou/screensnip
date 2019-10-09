@@ -92,31 +92,23 @@ void SnipWidget::keyPressEvent(QKeyEvent* const event)
 	event->ignore();
 }
 
-void SnipWidget::mousePressEvent(QMouseEvent* event)
+void SnipWidget::mousePressEvent(QMouseEvent* const event)
 {
 	switch(event->button())
 	{
 	case Qt::MouseButton::LeftButton:
-		selection_begin_ = event->screenPos().toPoint();
-		is_selecting_ = true;
+		beginSelection(event->screenPos().toPoint());
 		break;
 
 	case Qt::MouseButton::RightButton:
-		if (is_selecting_)
-		{
-			is_selecting_ = false;
-			selection_begin_ = {};
-			selection_rect_ = {};
-
-			updateSelectionWidget();
-		}
+		cancelSelection();
 		break;
 
 	default:;
 	}
 }
 
-void SnipWidget::mouseReleaseEvent(QMouseEvent* event)
+void SnipWidget::mouseReleaseEvent(QMouseEvent* const event)
 {
 	if (event->button() == Qt::MouseButton::LeftButton && is_selecting_)
 	{
@@ -130,7 +122,7 @@ void SnipWidget::mouseReleaseEvent(QMouseEvent* event)
 	}
 }
 
-void SnipWidget::mouseMoveEvent(QMouseEvent* event)
+void SnipWidget::mouseMoveEvent(QMouseEvent* const event)
 {
 	if (is_selecting_)
 	{
@@ -168,6 +160,24 @@ void SnipWidget::copyPixmapToClipboard() const
 void SnipWidget::createPixmapFromSelection()
 {
 	selected_pixmap_ = original_pixmap_.copy(selection_rect_);
+}
+
+void SnipWidget::beginSelection(const QPoint& position)
+{
+	selection_begin_ = position;
+	is_selecting_ = true;
+}
+
+void SnipWidget::cancelSelection()
+{
+	if (is_selecting_)
+	{
+		is_selecting_ = false;
+		selection_begin_ = {};
+		selection_rect_ = {};
+
+		updateSelectionWidget();
+	}
 }
 
 void SnipWidget::updateSelectionWidget() const

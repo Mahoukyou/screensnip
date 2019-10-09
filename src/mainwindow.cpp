@@ -10,8 +10,6 @@
 #include <QPushButton>
 #include <QDebug>
 
-#include "snipwidget.h"
-
 MainWindow::MainWindow(QWidget* const parent) :
 	QMainWindow{ parent },
 	ui_{ std::make_unique<UIMainWindow>() }

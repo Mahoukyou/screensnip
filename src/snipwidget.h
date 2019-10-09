@@ -42,6 +42,8 @@ private:
 
 	void createPixmapFromSelection();
 
+	void beginSelection(const QPoint& position);
+	void cancelSelection();
 	void updateSelectionWidget() const;
 
 private:
