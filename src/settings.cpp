@@ -20,7 +20,7 @@ void Settings::setSnipWidgetHotkey(const QString& hotkey)
 
 QString Settings::getSnipWidgetHotkey() const
 {
-	return settings_.value(snipWidgetHotkeySettingsKey(), "").toString();
+	return settings_.value(snipWidgetHotkeySettingsKey(), "Alt+Shift+S").toString();
 }
 
 void Settings::setEntireScreenshotHotkey(const QString& hotkey)
@@ -30,7 +30,7 @@ void Settings::setEntireScreenshotHotkey(const QString& hotkey)
 
 QString Settings::getEntireScreenshotHotkey() const
 {
-	return settings_.value(entireScreenshotHotkeySettingsKey(), "").toString();
+	return settings_.value(entireScreenshotHotkeySettingsKey(), "Alt+Shift+D").toString();
 }
 
 QString Settings::snipWidgetHotkeySettingsKey()

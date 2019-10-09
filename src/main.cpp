@@ -3,11 +3,7 @@
 #include <QApplication>
 #include "mainwindow.h"
 
-#include "uglobalhotkeys.h"
-#include <QDebug>
-
-#include "snipwidget.h"
-#include "utility.h"
+#include "hotkeymanager.h"
 #include "settings.h"
 
 
@@ -20,34 +16,10 @@ int main(int argc, char *argv[])
 		Settings& settings = Settings::instance();
 		settings.setSnipWidgetHotkey("Alt+Shift+S");
 		settings.setEntireScreenshotHotkey("Alt+Shift+D");
-		
-		// teest
-		UGlobalHotkeys* hotkeyManager = new UGlobalHotkeys();
-		hotkeyManager->registerHotkey(settings.getSnipWidgetHotkey(), 1);
-		hotkeyManager->registerHotkey(settings.getEntireScreenshotHotkey(), 2);
-		QObject::connect(hotkeyManager, &UGlobalHotkeys::activated, [](const size_t id)
-		{
-			// todo, enumerator, hotkey manager
-			switch(id)
-			{
-			case 1:
-			{
-				auto snip_widget = SnipWidget::create_snip_widget();
-				snip_widget->show();
-				snip_widget->raise();
-				snip_widget->activateWindow();
 
-				break;
-			}
-			case 2:
-				utility::takeEntireScreenScreenshot();
-				break;
-
-			default:;
-			}
-			
-			
-		});
+		HotkeyManager& hotkey_manager = HotkeyManager::instance();
+		hotkey_manager.setupHotkey(settings.getSnipWidgetHotkey(), HotkeyManager::EHotkey::SnipWidget);
+		hotkey_manager.setupHotkey(settings.getEntireScreenshotHotkey(), HotkeyManager::EHotkey::EntireScreenshot);
 		
 		MainWindow window;
 		window.show();

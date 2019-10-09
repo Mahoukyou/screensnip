@@ -18,10 +18,10 @@ public:
 	static Settings& instance();
 	
 	void setSnipWidgetHotkey(const QString& hotkey);
-	QString getSnipWidgetHotkey() const;
+	[[nodiscard]] QString getSnipWidgetHotkey() const;
 
 	void setEntireScreenshotHotkey(const QString& hotkey);
-	QString getEntireScreenshotHotkey() const;
+	[[nodiscard]] QString getEntireScreenshotHotkey() const;
 
 private:
 	static QString snipWidgetHotkeySettingsKey();
