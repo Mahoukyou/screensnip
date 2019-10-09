@@ -26,6 +26,8 @@ add_executable(ScreenSnip # WIN32 # todo
     snipwidget.cpp	
 	utility.h
     utility.cpp
+	settings.h
+    settings.cpp
 )
 
 target_link_libraries(ScreenSnip Qt5::Widgets)

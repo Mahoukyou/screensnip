@@ -8,6 +8,7 @@
 
 #include "snipwidget.h"
 #include "utility.h"
+#include "settings.h"
 
 
 int main(int argc, char *argv[])
@@ -16,10 +17,14 @@ int main(int argc, char *argv[])
 	{
 		QApplication a(argc, argv);
 
+		Settings& settings = Settings::instance();
+		settings.setSnipWidgetHotkey("Alt+Shift+S");
+		settings.setEntireScreenshotHotkey("Alt+Shift+D");
+		
 		// teest
 		UGlobalHotkeys* hotkeyManager = new UGlobalHotkeys();
-		hotkeyManager->registerHotkey("Alt+Shift+S", 1);
-		hotkeyManager->registerHotkey("Alt+Shift+D", 2);
+		hotkeyManager->registerHotkey(settings.getSnipWidgetHotkey(), 1);
+		hotkeyManager->registerHotkey(settings.getEntireScreenshotHotkey(), 2);
 		QObject::connect(hotkeyManager, &UGlobalHotkeys::activated, [](const size_t id)
 		{
 			// todo, enumerator, hotkey manager
