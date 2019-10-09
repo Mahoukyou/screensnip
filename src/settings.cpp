@@ -16,6 +16,7 @@ Settings& Settings::instance()
 void Settings::setSnipWidgetHotkey(const QString& hotkey)
 {
 	settings_.setValue(snipWidgetHotkeySettingsKey(), hotkey);
+	emit onSnipWidgetHotkeyChanged(hotkey);
 }
 
 QString Settings::getSnipWidgetHotkey() const
@@ -26,6 +27,7 @@ QString Settings::getSnipWidgetHotkey() const
 void Settings::setEntireScreenshotHotkey(const QString& hotkey)
 {
 	settings_.setValue(entireScreenshotHotkeySettingsKey(), hotkey);
+	emit onEntireScreenshotHotkeyChanged(hotkey);
 }
 
 QString Settings::getEntireScreenshotHotkey() const
