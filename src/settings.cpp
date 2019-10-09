@@ -19,7 +19,7 @@ void Settings::setSnipWidgetHotkey(const QString& hotkey)
 	emit onSnipWidgetHotkeyChanged(hotkey);
 }
 
-QString Settings::getSnipWidgetHotkey() const
+QString Settings::snipWidgetHotkey() const
 {
 	return settings_.value(snipWidgetHotkeySettingsKey(), "Alt+Shift+S").toString();
 }
@@ -30,9 +30,20 @@ void Settings::setEntireScreenshotHotkey(const QString& hotkey)
 	emit onEntireScreenshotHotkeyChanged(hotkey);
 }
 
-QString Settings::getEntireScreenshotHotkey() const
+QString Settings::entireScreenshotHotkey() const
 {
 	return settings_.value(entireScreenshotHotkeySettingsKey(), "Alt+Shift+D").toString();
+}
+
+void Settings::setMultipleSnipsModifier(const Qt::KeyboardModifier key)
+{
+	settings_.setValue(multipleSnipsSettingsKey(), key);
+}
+
+Qt::KeyboardModifier Settings::multipleSnipsModifier() const
+{
+	const int value = settings_.value(multipleSnipsSettingsKey(), Qt::KeyboardModifier::ShiftModifier).toInt();
+	return static_cast<Qt::KeyboardModifier>(value);
 }
 
 QString Settings::snipWidgetHotkeySettingsKey()
@@ -43,4 +54,9 @@ QString Settings::snipWidgetHotkeySettingsKey()
 QString Settings::entireScreenshotHotkeySettingsKey()
 {
 	return "hotkeys/entire_screenshot_hotkey";
+}
+
+QString Settings::multipleSnipsSettingsKey()
+{
+	return "snips/multiple_snips_key";
 }

@@ -10,6 +10,7 @@
 #include <QPainter>
 
 #include "utility.h"
+#include "settings.h"
 
 void SelectionWidget::setSelectionRect(const QRect& selection_rect)
 {
@@ -113,12 +114,21 @@ void SnipWidget::mouseReleaseEvent(QMouseEvent* const event)
 	if (event->button() == Qt::MouseButton::LeftButton && is_selecting_)
 	{
 		is_selecting_ = false;
+
+		// copy to clipboard even if multiple snips modifier is on (user might cancel the last snip)
 		createPixmapFromSelection();
 		copyPixmapToClipboard();
-
 		utility::savePixmapToDisk(selected_pixmap_);
-		
-		cancelSnip();
+
+		Settings& settings = Settings::instance();
+		if (QApplication::keyboardModifiers() == settings.multipleSnipsModifier())
+		{
+			cancelSelection();
+		}
+		else
+		{
+			cancelSnip();
+		}
 	}
 }
 
@@ -170,14 +180,11 @@ void SnipWidget::beginSelection(const QPoint& position)
 
 void SnipWidget::cancelSelection()
 {
-	if (is_selecting_)
-	{
-		is_selecting_ = false;
-		selection_begin_ = {};
-		selection_rect_ = {};
+	is_selecting_ = false;
+	selection_begin_ = {};
+	selection_rect_ = {};
 
-		updateSelectionWidget();
-	}
+	updateSelectionWidget();
 }
 
 void SnipWidget::updateSelectionWidget() const

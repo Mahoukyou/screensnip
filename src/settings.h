@@ -21,10 +21,13 @@ public:
 	static Settings& instance();
 	
 	void setSnipWidgetHotkey(const QString& hotkey);
-	[[nodiscard]] QString getSnipWidgetHotkey() const;
+	[[nodiscard]] QString snipWidgetHotkey() const;
 
 	void setEntireScreenshotHotkey(const QString& hotkey);
-	[[nodiscard]] QString getEntireScreenshotHotkey() const;
+	[[nodiscard]] QString entireScreenshotHotkey() const;
+
+	void setMultipleSnipsModifier(Qt::KeyboardModifier key);
+	[[nodiscard]] Qt::KeyboardModifier multipleSnipsModifier() const;
 
 signals:
 	void onSnipWidgetHotkeyChanged(const QString& hotkey);
@@ -33,6 +36,7 @@ signals:
 private:
 	static QString snipWidgetHotkeySettingsKey();
 	static QString entireScreenshotHotkeySettingsKey();
+	static QString multipleSnipsSettingsKey();
 	
 private:
 	QSettings settings_;
