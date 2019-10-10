@@ -9,12 +9,13 @@
 #include <QGuiApplication>
 #include <QClipboard>
 #include <QApplication>
+#include "settings.h"
 
 bool utility::savePixmapToDisk(const QPixmap& pixmap)
 {
 	// todo cleanup  a litile
-	const QString directory_path = R"(K:\Snips\)"; // todo, allow user to set path
-	if (!makeDirectoryPathIfNotExists(directory_path))
+	const QString directory_path = Settings::instance().saveDirectoryPath();
+ 	if (!makeDirectoryPathIfNotExists(directory_path))
 	{
 		return false;
 	}
@@ -80,8 +81,7 @@ void utility::takeEntireScreenScreenshot()
 		return;
 	}
 
-	auto pixmap = screen->grabWindow(0);
+	const QPixmap pixmap = screen->grabWindow(0);
 	QApplication::clipboard()->setPixmap(pixmap);
-
 	savePixmapToDisk(pixmap);
 }

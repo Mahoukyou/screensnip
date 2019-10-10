@@ -16,17 +16,15 @@ public:
 		Max
 	};
 
-private:
-	HotkeyManager();
-
 public:
+	HotkeyManager();
+	~HotkeyManager() = default;
+
 	HotkeyManager(const HotkeyManager&) = delete;
 	HotkeyManager(HotkeyManager&&) = delete;
 
 	HotkeyManager& operator=(const HotkeyManager&) = delete;
 	HotkeyManager& operator=(HotkeyManager&&) = delete;
-
-	static HotkeyManager& instance();
 	
 	void setupHotkey(const QString& hotkey, EHotkey hotkey_type);
 	void cancelHotkey(EHotkey hotkey_type);

@@ -46,17 +46,33 @@ Qt::KeyboardModifier Settings::multipleSnipsModifier() const
 	return static_cast<Qt::KeyboardModifier>(value);
 }
 
+void Settings::setSaveDirectoryPath(const QString& path)
+{
+	settings_.setValue(saveDirectoryPathSettingsKey(), path);
+}
+
+QString Settings::saveDirectoryPath() const
+{
+	// todo, default path
+	return settings_.value(saveDirectoryPathSettingsKey(), "").toString();
+}
+
 QString Settings::snipWidgetHotkeySettingsKey()
 {
-	return "hotkeys/snip_widget_hotkey";
+	return "snip_widget_hotkey";
 }
 
 QString Settings::entireScreenshotHotkeySettingsKey()
 {
-	return "hotkeys/entire_screenshot_hotkey";
+	return "entire_screenshot_hotkey";
 }
 
 QString Settings::multipleSnipsSettingsKey()
 {
-	return "snips/multiple_snips_key";
+	return "multiple_snips_key";
+}
+
+QString Settings::saveDirectoryPathSettingsKey()
+{
+	return "save_directory_path";
 }

@@ -8,6 +8,8 @@ class Settings : public QObject
 	Q_OBJECT
 	
 public:
+	~Settings() = default;
+	
 	Settings(const Settings&) = delete;
 	Settings(Settings&&) = delete;
 
@@ -29,6 +31,9 @@ public:
 	void setMultipleSnipsModifier(Qt::KeyboardModifier key);
 	[[nodiscard]] Qt::KeyboardModifier multipleSnipsModifier() const;
 
+	void setSaveDirectoryPath(const QString& path);
+	[[nodiscard]] QString saveDirectoryPath() const;
+
 signals:
 	void onSnipWidgetHotkeyChanged(const QString& hotkey);
 	void onEntireScreenshotHotkeyChanged(const QString& hotkey);
@@ -37,6 +42,7 @@ private:
 	static QString snipWidgetHotkeySettingsKey();
 	static QString entireScreenshotHotkeySettingsKey();
 	static QString multipleSnipsSettingsKey();
+	static QString saveDirectoryPathSettingsKey();
 	
 private:
 	QSettings settings_;

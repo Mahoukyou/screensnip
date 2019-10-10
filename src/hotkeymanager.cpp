@@ -8,13 +8,6 @@ HotkeyManager::HotkeyManager() :
 	connect(global_hotkeys_.get(), &UGlobalHotkeys::activated, this, &HotkeyManager::activated);
 }
 
-HotkeyManager& HotkeyManager::instance()
-{
-	static HotkeyManager hotkey_manager{};
-
-	return hotkey_manager;
-}
-
 // TODO[2] Due to limitations of the global hotkeys library we are unable to check if registration was successful
 // todo, might change that later
 void HotkeyManager::setupHotkey(const QString& hotkey, const EHotkey hotkey_type)
