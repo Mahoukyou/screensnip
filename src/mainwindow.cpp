@@ -7,6 +7,7 @@
 
 #include <QPushButton>
 #include <QDebug>
+#include "settingswindow.h"
 
 MainWindow::MainWindow(QWidget* const parent) :
 	QMainWindow{ parent },
@@ -79,5 +80,5 @@ void MainWindow::onTrayIconActivated(const QSystemTrayIcon::ActivationReason rea
 
 void MainWindow::onSnipButtonClicked()
 {
-
+	(new SettingsWindow())->show(); // qt... -,-
 }

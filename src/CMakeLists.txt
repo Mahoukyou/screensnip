@@ -30,6 +30,10 @@ add_executable(ScreenSnip # WIN32 # todo
     settings.cpp
 	hotkeymanager.h
     hotkeymanager.cpp
+	settingswindow.h
+    settingswindow.cpp
+	uisettingswindow.h
+    uisettingswindow.cpp
 )
 
 target_link_libraries(ScreenSnip Qt5::Widgets)

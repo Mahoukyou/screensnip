@@ -39,10 +39,10 @@ signals:
 	void onEntireScreenshotHotkeyChanged(const QString& hotkey);
 
 private:
-	static QString snipWidgetHotkeySettingsKey();
-	static QString entireScreenshotHotkeySettingsKey();
-	static QString multipleSnipsSettingsKey();
-	static QString saveDirectoryPathSettingsKey();
+	[[nodiscard]] static QString snipWidgetHotkeySettingsKey();
+	[[nodiscard]] static QString entireScreenshotHotkeySettingsKey();
+	[[nodiscard]] static QString multipleSnipsSettingsKey();
+	[[nodiscard]] static QString saveDirectoryPathSettingsKey();
 	
 private:
 	QSettings settings_;

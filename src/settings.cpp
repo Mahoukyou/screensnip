@@ -53,8 +53,8 @@ void Settings::setSaveDirectoryPath(const QString& path)
 
 QString Settings::saveDirectoryPath() const
 {
-	// todo, default path
-	return settings_.value(saveDirectoryPathSettingsKey(), "").toString();
+	// todo, default path to username/pictures/snips
+	return settings_.value(saveDirectoryPathSettingsKey(), "Snips").toString();
 }
 
 QString Settings::snipWidgetHotkeySettingsKey()

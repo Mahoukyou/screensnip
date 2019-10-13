@@ -14,15 +14,15 @@
 bool utility::savePixmapToDisk(const QPixmap& pixmap)
 {
 	// todo cleanup  a litile
-	const QString directory_path = Settings::instance().saveDirectoryPath();
- 	if (!makeDirectoryPathIfNotExists(directory_path))
+	const QDir directory{ Settings::instance().saveDirectoryPath() };
+ 	if (!makeDirectoryPathIfNotExists(directory.absolutePath()))
 	{
 		return false;
 	}
 	
 	const QDateTime now = QDateTime::currentDateTime();
 	const QString base_filename = "Snip " + now.toString("yyyy-MM-d h-mm-ss");
-	const QString filepath = getAvailableFilepath(directory_path, base_filename);
+	const QString filepath = getAvailableFilepath(directory, base_filename);
 	
 	QFile file(filepath);
 	if (!file.open(QIODevice::WriteOnly))
@@ -33,10 +33,10 @@ bool utility::savePixmapToDisk(const QPixmap& pixmap)
 	return pixmap.save(&file, "PNG");
 }
 
-QString utility::getAvailableFilepath(const QString& path, const QString& base_filename)
+QString utility::getAvailableFilepath(const QDir& path, const QString& base_filename)
 {
 	// todo, multiple extension types<?>
-	const QString base_filepath = path + base_filename;
+	const QString base_filepath = path.absoluteFilePath(base_filename);
 	if (const auto filepath = base_filepath + ".png";
 		!itemExists(filepath))
 	{
