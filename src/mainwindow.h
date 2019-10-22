@@ -25,10 +25,9 @@ private:
 	void createTrayIcon();
 	void createTrayIconActions();
 	void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
+	void openSettings();
 
 	QSystemTrayIcon *tray_icon_{ nullptr };
-
-	void onSnipButtonClicked();
 };
 
 #endif // MAINWINDOW_H

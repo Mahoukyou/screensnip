@@ -1,9 +1,9 @@
 #pragma once
 
-#include <QMainWindow>
+#include <QWidget>
 #include "uisettingswindow.h"
 
-class SettingsWindow : public QMainWindow
+class SettingsWindow : public QWidget
 {
 	Q_OBJECT
 

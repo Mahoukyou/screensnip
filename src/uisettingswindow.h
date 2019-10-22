@@ -1,6 +1,5 @@
 #pragma once
 
-class QMainWindow;
 class QWidget;
 class MainChart;
 class DetailTreeView;
@@ -11,12 +10,7 @@ class QLineEdit;
 class UISettingsWindow
 {
 public:
-	void setupUI(QMainWindow* settings_window);
-
-	[[nodiscard]] QWidget* centralWidget() const noexcept
-	{
-		return central_widget_;
-	}
+	void setupUI(QWidget* settings_widget);
 
 	[[nodiscard]] QLineEdit* savePathEdit() const noexcept
 	{
@@ -40,7 +34,6 @@ public:
 
 
 private:
-	QWidget* central_widget_{ nullptr };
 	QLineEdit* save_path_edit_{ nullptr };
 	QPushButton* save_path_button_{ nullptr };
 	QPushButton* save_changes_button_{ nullptr };

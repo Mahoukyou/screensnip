@@ -11,15 +11,15 @@ int main(int argc, char *argv[])
 	int result{};
 	{
 		QApplication a(argc, argv);
+		QGuiApplication::setQuitOnLastWindowClosed(false);
 
 		Settings& settings = Settings::instance();
 		settings.setSaveDirectoryPath(R"(K:\Snips\)");
 		
-		HotkeyManager hotkey_manager = HotkeyManager{};
+		HotkeyManager hotkey_manager;
 		hotkey_manager.setupHotkey(settings.snipWidgetHotkey(), HotkeyManager::EHotkey::SnipWidget);
 		hotkey_manager.setupHotkey(settings.entireScreenshotHotkey(), HotkeyManager::EHotkey::EntireScreenshot);
 
-		// TODO[3] or just simply use std::function and std::bind instead of Qt style observers?
 		QObject::connect(&settings, &Settings::onSnipWidgetHotkeyChanged, &hotkey_manager, [&hotkey_manager](const QString& hotkey)
 		{
 			hotkey_manager.setupHotkey(hotkey, HotkeyManager::EHotkey::SnipWidget);
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 		});
 
 		MainWindow window;
-		window.show();
+		//window.show();
 
 		result = a.exec();
 	}

@@ -17,8 +17,6 @@ MainWindow::MainWindow(QWidget* const parent) :
 
 	createTrayIcon();
 	createTrayIconActions();
-
-	connect(ui_->snipButton(), &QPushButton::clicked, this, &MainWindow::onSnipButtonClicked);
 }
 
 MainWindow::~MainWindow()
@@ -58,6 +56,10 @@ void MainWindow::createTrayIconActions()
 {
 	const auto tray_icon_menu = new QMenu{ this };
 
+	const auto settings_action = new QAction{ tr("Settings"), tray_icon_menu };
+	connect(settings_action, &QAction::triggered, this, &MainWindow::openSettings);
+	tray_icon_menu->addAction(settings_action);
+
 	const auto quit_action = new QAction{ tr("Quit"), tray_icon_menu };
 	connect(quit_action, &QAction::triggered, this, &MainWindow::quit);
 	tray_icon_menu->addAction(quit_action);
@@ -67,18 +69,18 @@ void MainWindow::createTrayIconActions()
 
 void MainWindow::onTrayIconActivated(const QSystemTrayIcon::ActivationReason reason)
 {
-	switch (reason)
-	{
-	case QSystemTrayIcon::DoubleClick:
-		setVisible(!isVisible()); // for now lets just hide/show
-		// todo -- close the window entirely? so it won't consume resources while hidden
-		break;
+	//switch (reason)
+	//{
+	//case QSystemTrayIcon::DoubleClick:
+	//	//setVisible(!isVisible()); // for now lets just hide/show
+	//	// todo -- close the window entirely? so it won't consume resources while hidden
+	//	break;
 
-	default:;
-	}
+	//default:;
+	//}
 }
 
-void MainWindow::onSnipButtonClicked()
+void MainWindow::openSettings()
 {
 	(new SettingsWindow())->show(); // qt... -,-
 }

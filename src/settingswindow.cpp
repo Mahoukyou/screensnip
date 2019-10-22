@@ -8,7 +8,7 @@
 #include "utility.h"
 
 SettingsWindow::SettingsWindow(QWidget* const parent) :
-	QMainWindow{ parent },
+	QWidget{ parent },
 	ui_{ std::make_unique<UISettingsWindow>() }
 {
 	ui_->setupUI(this);
