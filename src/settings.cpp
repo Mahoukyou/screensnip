@@ -57,6 +57,16 @@ QString Settings::saveDirectoryPath() const
 	return settings_.value(saveDirectoryPathSettingsKey(), "Snips").toString();
 }
 
+void Settings::setIsSaveToFile(const bool save_to_file)
+{
+	settings_.setValue(IsSaveToFileSettingsKey(), save_to_file);
+}
+
+bool Settings::isSaveToFile() const
+{
+	return settings_.value(IsSaveToFileSettingsKey(), true).toBool();
+}
+
 QString Settings::snipWidgetHotkeySettingsKey()
 {
 	return "snip_widget_hotkey";
@@ -75,4 +85,9 @@ QString Settings::multipleSnipsSettingsKey()
 QString Settings::saveDirectoryPathSettingsKey()
 {
 	return "save_directory_path";
+}
+
+QString Settings::IsSaveToFileSettingsKey()
+{
+	return "is_save_to_file";
 }

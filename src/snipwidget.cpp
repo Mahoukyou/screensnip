@@ -118,9 +118,13 @@ void SnipWidget::mouseReleaseEvent(QMouseEvent* const event)
 		// copy to clipboard even if multiple snips modifier is on (user might cancel the last snip)
 		createPixmapFromSelection();
 		copyPixmapToClipboard();
-		utility::savePixmapToDisk(selected_pixmap_);
-
+		
 		Settings& settings = Settings::instance();
+		if (settings.isSaveToFile())
+		{
+			utility::savePixmapToDisk(selected_pixmap_);
+		}
+
 		if (QApplication::keyboardModifiers() == settings.multipleSnipsModifier())
 		{
 			cancelSelection();

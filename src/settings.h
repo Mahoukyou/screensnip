@@ -34,6 +34,9 @@ public:
 	void setSaveDirectoryPath(const QString& path);
 	[[nodiscard]] QString saveDirectoryPath() const;
 
+	void setIsSaveToFile(bool save_to_file);
+	[[nodiscard]] bool isSaveToFile() const;
+
 signals:
 	void onSnipWidgetHotkeyChanged(const QString& hotkey);
 	void onEntireScreenshotHotkeyChanged(const QString& hotkey);
@@ -43,6 +46,7 @@ private:
 	[[nodiscard]] static QString entireScreenshotHotkeySettingsKey();
 	[[nodiscard]] static QString multipleSnipsSettingsKey();
 	[[nodiscard]] static QString saveDirectoryPathSettingsKey();
+	[[nodiscard]] static QString IsSaveToFileSettingsKey();
 	
 private:
 	QSettings settings_;

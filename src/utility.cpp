@@ -83,5 +83,9 @@ void utility::takeEntireScreenScreenshot()
 
 	const QPixmap pixmap = screen->grabWindow(0);
 	QApplication::clipboard()->setPixmap(pixmap);
-	savePixmapToDisk(pixmap);
+
+	if (Settings::instance().isSaveToFile())
+	{
+		savePixmapToDisk(pixmap);
+	}
 }
