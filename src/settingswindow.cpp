@@ -28,6 +28,15 @@ void SettingsWindow::setupInitialSettings()
 	ui_->savePathEdit()->setText(settings.saveDirectoryPath());
 }
 
+void SettingsWindow::enableInput(const bool enable)
+{
+	ui_->saveToFileCheckbox()->setEnabled(enable);
+	ui_->savePathEdit()->setEnabled(enable);
+	ui_->savePathButton()->setEnabled(enable);
+	ui_->saveChangesButton()->setEnabled(enable);
+	ui_->cancelChangesButton()->setEnabled(enable);
+}
+
 bool SettingsWindow::validatePendingChanges()
 {
 	bool changes_valid{ true };
@@ -45,12 +54,14 @@ bool SettingsWindow::validatePendingChanges()
 void SettingsWindow::saveChanges()
 {
 	Settings& settings = Settings::instance();
-	// todo, block input
 
+	enableInput(false);
 	if (!validatePendingChanges())
 	{
 		// todo
 		qDebug() << "settings are invalid";
+		enableInput(true);
+		
 		return;
 	}
 
@@ -63,6 +74,8 @@ void SettingsWindow::saveChanges()
 
 void SettingsWindow::cancelChanges()
 {
+	enableInput(false);
+
 	hide();
 	deleteLater();
 }

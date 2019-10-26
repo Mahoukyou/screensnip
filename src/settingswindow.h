@@ -16,8 +16,9 @@ private:
 
 	void setupInitialSettings();
 
+	void enableInput(bool enable);
 	[[nodiscard]] bool validatePendingChanges();
-	
+
 	void saveChanges();
 	void cancelChanges();
 };
