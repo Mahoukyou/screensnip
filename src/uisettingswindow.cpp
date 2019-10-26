@@ -8,6 +8,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QLabel>
+#include <QCheckBox>
 
 void UISettingsWindow::setupUI(QWidget* const settings_widget)
 {
@@ -17,12 +18,16 @@ void UISettingsWindow::setupUI(QWidget* const settings_widget)
 	QVBoxLayout* const vertical_layout = new QVBoxLayout{ settings_widget };
 	QGridLayout* const form_layout = new QGridLayout{ settings_widget };
 	vertical_layout->addLayout(form_layout);
-	form_layout->addWidget(new QLabel{ "Save path:" }, 0, 0);
-	save_path_edit_ = new QLineEdit{ settings_widget };
-	form_layout->addWidget(save_path_edit_, 0, 1);
-	save_path_button_ = new QPushButton{ "Browse...", settings_widget };
-	form_layout->addWidget(save_path_button_, 0, 2);
 
+	form_layout->addWidget(new QLabel{ "Save to file: "}, 0, 0);
+	save_to_file_checkbox_ = new QCheckBox{ settings_widget };
+	form_layout->addWidget(save_to_file_checkbox_, 0, 1);
+
+	form_layout->addWidget(new QLabel{ "Save path:" }, 1, 0);
+	save_path_edit_ = new QLineEdit{ settings_widget };
+	form_layout->addWidget(save_path_edit_, 1, 1);
+	save_path_button_ = new QPushButton{ "Browse...", settings_widget };
+	form_layout->addWidget(save_path_button_, 1, 2);
 
 	//form_layout->addWidget(new QWidget{ centralWidget() }, 1, 0, 0, 2);
 	QHBoxLayout* const horizontal_layout = new QHBoxLayout{ settings_widget };

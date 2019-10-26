@@ -3,6 +3,7 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QDebug>
+#include <QCheckBox>
 
 #include "settings.h"
 #include "utility.h"
@@ -23,6 +24,7 @@ void SettingsWindow::setupInitialSettings()
 {
 	const Settings& settings = Settings::instance();
 	
+	ui_->saveToFileCheckbox()->setChecked(settings.isSaveToFile());
 	ui_->savePathEdit()->setText(settings.saveDirectoryPath());
 }
 
@@ -45,16 +47,16 @@ void SettingsWindow::saveChanges()
 	Settings& settings = Settings::instance();
 	// todo, block input
 
-	if(!validatePendingChanges())
+	if (!validatePendingChanges())
 	{
 		// todo
 		qDebug() << "settings are invalid";
 		return;
 	}
-	
+
+	settings.setIsSaveToFile(ui_->saveToFileCheckbox()->isChecked());
 	settings.setSaveDirectoryPath(ui_->savePathEdit()->text());
 
-	
 	hide();
 	deleteLater();
 }
